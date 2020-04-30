@@ -11,63 +11,63 @@ public class ShootingController : MonoBehaviour
 	public Transform rightCannon;
 
 	public GameObject bulletPrefab;
-
-	public TextMeshProUGUI ammoField;
-
+	
 	public float bulletSpeed = 8f;
 
+	private ShootingSpeed shootingSpeed;
+	
 	[SerializeField] private float delayBetweenShots = 0.0625f;
 	private bool canShoot = true;
+	private static readonly int IsShooting = Animator.StringToHash("IsShooting");
 
-	public long ammoCount = 50;
-	public long maxAmmoCount = 200;
-
-	void Start()
+	private void Start()
 	{
 		heroAnimator = GetComponent<Animator>();
+		string sSpeed = PlayerPrefs.GetString("ShootingSpeed");
+
+		ShootingSpeed spd = null;
+		if (sSpeed != null)
+			spd = ShootingSpeed.ValueOf(sSpeed);
+		
+		shootingSpeed = spd ?? ShootingSpeed.SLOWEST;
+		if (spd == null)
+			PlayerPrefs.SetString("ShootingSpeed", shootingSpeed.ToString());
+
+		delayBetweenShots = shootingSpeed.Speed;
+		
+		PlayerPrefs.Save();
 	}
 
-	void Update()
+	public void Update()
 	{
-		if (Input.GetButtonDown("Fire1") && canShoot && ammoCount > 0 && !GetComponent<MovementController>().IsBoosting)
-		{
-			heroAnimator.SetBool("IsShooting", true);
-		}
+		if (Input.GetButtonDown("Fire1"))
+			heroAnimator.SetBool(IsShooting, true);
 
 		if (Input.GetButton("Fire1"))
 		{
 			Shoot();
-			if (ammoCount <= 0)
-				heroAnimator.SetBool("IsShooting", false);
 		}
 
 		if (Input.GetButtonUp("Fire1"))
 		{
-			heroAnimator.SetBool("IsShooting", false);
+			heroAnimator.SetBool(IsShooting, false);
 		}
 	}
 
 	private void FixedUpdate()
 	{
-		ammoField.text = ammoCount.ToString();
+		
 	}
 
-	void Shoot()
+	private void Shoot()
 	{
 		if (!canShoot)
 			return;
 
-		if (!(ammoCount > 0))
-			return;
-
-		if (ammoCount > maxAmmoCount)
-			ammoCount = maxAmmoCount;
-
-		ammoCount--;
-
 		StartCoroutine(BulletDelay());
-		var left = Instantiate(bulletPrefab, leftCannon.position, transform.rotation, null);
-		var right = Instantiate(bulletPrefab, rightCannon.position, transform.rotation, null);
+		Quaternion rot = transform.rotation;
+		GameObject left = Instantiate(bulletPrefab, leftCannon.position, rot, null);
+		GameObject right = Instantiate(bulletPrefab, rightCannon.position, rot, null);
 
 		StartCoroutine(ApplyBulletForce(left));
 		StartCoroutine(ApplyBulletForce(right));

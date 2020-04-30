@@ -10,7 +10,7 @@ public class CameraExpander : MonoBehaviour
 
 	private Camera camera;
 
-    void Start()
+	private void Start()
     {
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		camera = GetComponent<Camera>();
@@ -21,12 +21,15 @@ public class CameraExpander : MonoBehaviour
 		 z = dx / 2 + 5
 		 */
 
-    void Update()
+	private void Update()
     {
-		Vector3 midPoint = new Vector3((transform.position.x + playerTransform.position.x) / 2, (transform.position.y + playerTransform.position.y) / 2, -1f);
-		float distance = Vector3.Distance(Vector3.zero, transform.position);
-		transform.position = Vector3.Lerp(transform.position, midPoint, trailTime * Time.deltaTime);
-		Vector3 pos = transform.position;
+	    Vector3 position = transform.position;
+	    Vector3 playerPos = playerTransform.position;
+	    Vector3 midPoint = new Vector3((position.x + playerPos.x) / 2, (position.y + playerPos.y) / 2, -1f);
+		float distance = Vector3.Distance(Vector3.zero, position);
+		position = Vector3.Lerp(position, midPoint, trailTime * Time.deltaTime);
+		transform.position = position;
+		Vector3 pos = position;
 		if (transform.position.x > maxDistanceFromOrigin)
 			pos.x = maxDistanceFromOrigin;
 		else if (-transform.position.x > maxDistanceFromOrigin)

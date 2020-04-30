@@ -6,7 +6,8 @@ public class AmmoPowerup : MonoBehaviour, IPowerup
 
 	public void Pickup()
 	{
-		Player.Instance.GetComponent<ShootingController>().ammoCount += 50;
+		// Player.Instance.GetComponent<ShootingController>().ammoCount += 50;
+		//todo: rework into temporary quicker fire rate
 		Destroy(gameObject);
 	}
 

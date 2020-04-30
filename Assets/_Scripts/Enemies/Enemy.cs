@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 	protected Animator animator;
 
 	protected int health = 1;
+	private static readonly int Destroyed = Animator.StringToHash("Destroyed");
 
 	private void Start()
 	{
@@ -26,10 +27,10 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void Kill()
 	{
-		animator.SetBool("Destroyed", true);
+		animator.SetBool(Destroyed, true);
 	}
 
-	public virtual void Destroy()
+	protected virtual void Destroy()
 	{
 		if (Random.Range(0f, 1f) <= 0.02)
 		{

@@ -9,9 +9,9 @@ public class Player : MonoBehaviour
 
 	public Animator animator;
 
-	[SerializeField] public int Health { get; private set; }
+	[SerializeField] private int Health { get; set; }
 
-	[SerializeField] public int Score { get; private set; }
+	[SerializeField] private int Score { get; set; }
 
 	[SerializeField] public float AsteroidAngle = 60f;
 
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
 	[SerializeField] private TextMeshProUGUI _scoreText;
 
-	void Start()
+	private void Start()
 	{
 		if (Instance != null)
 		{
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
 			animator.SetBool("IsDamaged", true);
 	}
 
-	public void Kill()
+	private void Kill()
 	{
 		IsDead = true;
 		animator.SetBool("IsDead", true);

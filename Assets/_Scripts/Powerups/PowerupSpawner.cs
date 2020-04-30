@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class PowerupSpawner : MonoBehaviour
 {
 	public static PowerupSpawner Instance { get; private set; }
 
-	[SerializeField] GameObject[] _spawnablePrefabs;
+	[SerializeField] private GameObject[] spawnablePrefabs;
 
-	[SerializeField] private float _despawnTime = 20f;
-	[SerializeField] private float _timeBetweenSpawns = 60f;
-	[SerializeField] private float _maxFluxBetweenSpawns = 30f;
+	[SerializeField] private float despawnTime = 20f;
+	[SerializeField] private float timeBetweenSpawns = 60f;
+	[SerializeField] private float maximumDistanceDelta = 30f;
 
 	private void Start()
 	{
@@ -22,7 +23,7 @@ public class PowerupSpawner : MonoBehaviour
 
 		Instance = this;
 
-		StartCoroutine(SpawnPowerups(_timeBetweenSpawns, _maxFluxBetweenSpawns));
+		StartCoroutine(SpawnPowerups(timeBetweenSpawns, maximumDistanceDelta));
 	}
 
 	private IEnumerator SpawnPowerups(float timeBetweenDrops, float maxDistance)
@@ -48,10 +49,13 @@ public class PowerupSpawner : MonoBehaviour
 		SpawnPowerup(spawnPos);
 	}
 
-	public void SpawnPowerup(Vector3 position)
+	private void SpawnPowerup(Vector3 position)
 	{
-		int index = Random.Range(0, _spawnablePrefabs.Length - 1);
-		GameObject spawned = Instantiate(_spawnablePrefabs[index], position, Quaternion.identity, null);
-		spawned.GetComponent<IPowerup>().Despawn(_despawnTime);
+		if (spawnablePrefabs.Length == 0)
+			return;
+		
+		int index = Random.Range(0, spawnablePrefabs.Length - 1);
+		GameObject spawned = Instantiate(spawnablePrefabs[index], position, Quaternion.identity, null);
+		spawned.GetComponent<IPowerup>().Despawn(despawnTime);
 	}
 }
