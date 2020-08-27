@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d518c602e9076c74a83fcd0caf5c2bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultHealth: 1
   spin: 0
   asteroidSpeed: 1
   spawnRot: 1
@@ -96,6 +97,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 678863500950661460, guid: cd44ed7b6db3a1b48b2172665e82ded6,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678863500950661460, guid: cd44ed7b6db3a1b48b2172665e82ded6,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678863500950661460, guid: cd44ed7b6db3a1b48b2172665e82ded6,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 678863500950661481, guid: cd44ed7b6db3a1b48b2172665e82ded6, type: 3}

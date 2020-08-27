@@ -9,6 +9,8 @@ public class MouseController : MonoBehaviour
 	[SerializeField] private Transform cursor;
 
 	public bool defaultVisibility = false;
+
+	public bool gameOver = false;
 	
 	private void Start()
 	{
@@ -37,6 +39,10 @@ public class MouseController : MonoBehaviour
 		Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
 		pos.z = 0;
 		t.position = pos;
+	}
+
+	public void DisableCursorOverlay() {
+		SetVisibility(true);
 	}
 
 	public void ToggleVisibility()

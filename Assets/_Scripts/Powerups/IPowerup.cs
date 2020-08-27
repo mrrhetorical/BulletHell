@@ -2,6 +2,6 @@
 public interface IPowerup
 {
 	void Pickup();
-	IEnumerator Despawn(float a);
+	void Despawn(float a);
 
 }

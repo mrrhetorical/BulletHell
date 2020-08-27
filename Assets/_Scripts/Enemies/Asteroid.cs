@@ -8,7 +8,7 @@ public class Asteroid : Enemy
 
 	public bool spawnRot;
 
-	protected override void Enable()
+	public override void Enable()
 	{
 
 		Vector3 deltaPos = Player.Instance.transform.position - transform.parent.position;
@@ -64,8 +64,8 @@ public class Asteroid : Enemy
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (!collision.CompareTag("Player")) return;
-		if (health <= 0) return;
-		Player.Instance.Damage(1);
+		if (Health <= 0) return;
+		Player.Instance.GetComponent<Damageable>().Damage(1);
 		Destroy();
 	}
 }

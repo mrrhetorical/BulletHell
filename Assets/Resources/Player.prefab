@@ -74,8 +74,8 @@ GameObject:
   - component: {fileID: 4579403429542068655}
   - component: {fileID: 4579403429542068689}
   - component: {fileID: 4579403429542068688}
-  - component: {fileID: 1340212845}
   - component: {fileID: 7910722024358268064}
+  - component: {fileID: 1274484238761385552}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -114,6 +114,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -161,6 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4d3da4042462c4abdafd0dbbc0e0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  startingHealth: 3
+  startingBlanks: 3
+  maxBlanks: 3
+  maxHealth: 3
   AsteroidAngle: 50
   IsDead: 0
   invincible: 0
@@ -177,10 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49d525fac83281478820823220d79af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   playerSpeed: 1
   cursorFloatSpeed: 6
   movementFloatSpeed: 2
   screenBounds: {x: 12, y: 8}
+  _boostFuel: 10
+  _boostModifier: 2
 --- !u!114 &4579403429542068689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,11 +207,8 @@ MonoBehaviour:
   rightCannon: {fileID: 1174402669}
   bulletPrefab: {fileID: 8542921600439061397, guid: c3cac8fe5be1fab41a8221636c92521f,
     type: 3}
-  ammoField: {fileID: 0}
   bulletSpeed: 12
-  delayBetweenShots: 0.0625
-  ammoCount: 50
-  maxAmmoCount: 200
+  DelayBetweenShots: 0.0625
 --- !u!95 &4579403429542068688
 Animator:
   serializedVersion: 3
@@ -222,32 +228,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &1340212845
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4579403429542068652}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!50 &7910722024358268064
 Rigidbody2D:
   serializedVersion: 4
@@ -269,3 +249,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!58 &1274484238761385552
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4579403429542068652}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.02}
+  serializedVersion: 2
+  m_Radius: 0.4

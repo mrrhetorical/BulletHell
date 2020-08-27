@@ -54,7 +54,7 @@ public class PowerupSpawner : MonoBehaviour
 		if (spawnablePrefabs.Length == 0)
 			return;
 		
-		int index = Random.Range(0, spawnablePrefabs.Length - 1);
+		int index = Random.Range(0, spawnablePrefabs.Length);
 		GameObject spawned = Instantiate(spawnablePrefabs[index], position, Quaternion.identity, null);
 		spawned.GetComponent<IPowerup>().Despawn(despawnTime);
 	}

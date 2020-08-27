@@ -1,13 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
+
+	[Tooltip("Valid types: BossEnemy, Enemy, Player")] [SerializeField]
+	private string[] killTags;
+	
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Enemy"))
+		if (killTags.Contains(collision.tag))
 		{
-			collision.gameObject.GetComponent<Enemy>().Damage(1);
-			Destroy(gameObject);
+			Damageable damageable = collision.gameObject.GetComponent<Damageable>();
+			if (damageable != null) {
+				damageable.Damage(1);
+				
+				Destroy(gameObject);
+			}
 		}
 	}
 }

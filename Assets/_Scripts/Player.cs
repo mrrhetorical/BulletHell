@@ -1,17 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour
+public class Player : Damageable
 {
 
 	public static Player Instance { get; private set; }
 
 	public Animator animator;
 
-	[SerializeField] private int Health { get; set; }
-
-	[SerializeField] private int Score { get; set; }
+	[SerializeField] private int startingHealth = 3;
+	[SerializeField] private int startingBlanks = 3;
+	
+	[SerializeField] private int maxBlanks = 3;
+	[SerializeField] private int maxHealth = 3;
+	
+	[SerializeField] public int Score { get; private set; }
+	
+	[SerializeField] public int Blanks { get; set; }
 
 	[SerializeField] public float AsteroidAngle = 60f;
 
@@ -20,6 +28,9 @@ public class Player : MonoBehaviour
 	[SerializeField] private bool invincible = false;
 
 	[SerializeField] private TextMeshProUGUI _scoreText;
+	[SerializeField] private TextMeshProUGUI _healthText;
+
+	public ShootingController shootingController { get; private set; }
 
 	private void Start()
 	{
@@ -37,7 +48,11 @@ public class Player : MonoBehaviour
 			AsteroidAngle = 60f;
 		}
 
-		Health = 2;
+		shootingController = GetComponent<ShootingController>();
+		
+		Health = startingHealth;
+		Blanks = startingBlanks;
+		
 		Score = 0;
 
 		animator = GetComponent<Animator>();
@@ -52,6 +67,14 @@ public class Player : MonoBehaviour
 			text = "0" + text;
 
 		_scoreText.text = text;
+
+		if (Health > maxHealth)
+			Health = maxHealth;
+
+		if (Blanks > maxBlanks)
+			Blanks = maxBlanks;
+
+		_healthText.text = $"HP: {Health}\nBlanks: {Blanks}";
 	}
 
 	private IEnumerator UpdateScore()
@@ -63,9 +86,8 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void Damage(int damage)
+	public override void Damage(int damage)
 	{
-
 		if (invincible)
 			return;
 
@@ -93,9 +115,24 @@ public class Player : MonoBehaviour
 		animator.SetBool("IsDamaged", false);
 	}
 
-	public void PauseTime()
-	{
+	public void UseBlank() {
+		if (Blanks <= 0)
+			return;
+		
+		Blanks--;
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+		{
+			Destroy(obj);
+		}
+	}
 
+	public void EndGame() {
+		MenuHandler.Instance.EnableGameOverMenu();
+		MouseController.GetInstance().DisableCursorOverlay();
+		PauseTime();
+	}
+
+	private void PauseTime() {
 		animator.enabled = false;
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<MovementController>().enabled = false;

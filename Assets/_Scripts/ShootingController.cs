@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class ShootingController : MonoBehaviour
 {
@@ -14,9 +15,9 @@ public class ShootingController : MonoBehaviour
 	
 	public float bulletSpeed = 8f;
 
-	private ShootingSpeed shootingSpeed;
+	public ShootingSpeed ShootSpeed { get; set; }
 	
-	[SerializeField] private float delayBetweenShots = 0.0625f;
+	[SerializeField] public float DelayBetweenShots = 0.0625f;
 	private bool canShoot = true;
 	private static readonly int IsShooting = Animator.StringToHash("IsShooting");
 
@@ -29,11 +30,11 @@ public class ShootingController : MonoBehaviour
 		if (sSpeed != null)
 			spd = ShootingSpeed.ValueOf(sSpeed);
 		
-		shootingSpeed = spd ?? ShootingSpeed.SLOWEST;
+		ShootSpeed = spd ?? ShootingSpeed.SLOWEST;
 		if (spd == null)
-			PlayerPrefs.SetString("ShootingSpeed", shootingSpeed.ToString());
+			PlayerPrefs.SetString("ShootingSpeed", ShootSpeed.ToString());
 
-		delayBetweenShots = shootingSpeed.Speed;
+		DelayBetweenShots = ShootSpeed.Speed;
 		
 		PlayerPrefs.Save();
 	}
@@ -51,6 +52,10 @@ public class ShootingController : MonoBehaviour
 		if (Input.GetButtonUp("Fire1"))
 		{
 			heroAnimator.SetBool(IsShooting, false);
+		}
+
+		if (Input.GetButtonDown("Blank")) {
+			Player.Instance.UseBlank();
 		}
 	}
 
@@ -93,7 +98,7 @@ public class ShootingController : MonoBehaviour
 		canShoot = false;
 
 		float elapsed = 0f;
-		while (elapsed <= delayBetweenShots)
+		while (elapsed <= DelayBetweenShots)
 		{
 			elapsed += Time.deltaTime;
 			yield return null;

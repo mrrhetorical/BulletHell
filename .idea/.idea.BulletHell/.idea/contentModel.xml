@@ -13,8 +13,13 @@
             <e p="Asteroid.cs" t="Include" />
             <e p="AsteroidBlue.cs" t="Include" />
             <e p="AsteroidSpawner.cs" t="Include" />
+            <e p="BossEnemy.cs" t="Include" />
+            <e p="Damageable.cs" t="Include" />
             <e p="Enemy.cs" t="Include" />
+            <e p="EnemyBulletManager.cs" t="Include" />
+            <e p="ShipEnemy.cs" t="Include" />
           </e>
+          <e p="MenuHandler.cs" t="Include" />
           <e p="Misc" t="Include">
             <e p="DynamicBackground.cs" t="Include" />
           </e>
@@ -23,6 +28,9 @@
           <e p="Player.cs" t="Include" />
           <e p="Powerups" t="Include">
             <e p="AmmoPowerup.cs" t="Include" />
+            <e p="BlankPowerup.cs" t="Include" />
+            <e p="CoinPowerup.cs" t="Include" />
+            <e p="HealthPowerup.cs" t="Include" />
             <e p="IPowerup.cs" t="Include" />
             <e p="PowerupSpawner.cs" t="Include" />
           </e>

@@ -9,6 +9,8 @@ public class AsteroidSpawner : MonoBehaviour
 	public GameObject asteroidPrefab;
 	public GameObject asteroidBabyPrefab;
 	public GameObject blueAsteroidPrefab;
+	public GameObject shipEnemyPrefab;
+	public GameObject shipBossEnemyPrefab;
 
 	public float spawnDelay = 0.5f;
 	private float timeSinceLastSpawn = 0f;
@@ -35,9 +37,10 @@ public class AsteroidSpawner : MonoBehaviour
 	{
 		if (timeSinceLastSpawn < spawnDelay)
 			timeSinceLastSpawn += Time.deltaTime;
-		else
-		{
-			GameObject prefab = Random.Range(0, 7) == 0 ? blueAsteroidPrefab : asteroidPrefab;
+		else {
+			if (BossEnemy.Instance != null)
+				return;
+			GameObject prefab = (Player.Instance.Score > 60 && Random.Range(0, 100) == 0) ? shipBossEnemyPrefab : Random.Range(0, 10) == 0 ? shipEnemyPrefab : Random.Range(0, 7) == 0 ? blueAsteroidPrefab : asteroidPrefab;
 			timeSinceLastSpawn = 0f;
 			bool high, far;
 			high = Random.Range(0, 2) == 1;

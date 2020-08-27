@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Damageable
 {
 
 	protected Animator animator;
 
-	protected int health = 1;
 	private static readonly int Destroyed = Animator.StringToHash("Destroyed");
 
+	[SerializeField] protected int defaultHealth = 1;
+	
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
+		Health = defaultHealth;
 		Enable();
 	}
 
-	protected virtual void Enable() {}
+	public virtual void Enable() {}
 
 	private void Update()
 	{
@@ -40,11 +42,11 @@ public class Enemy : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	public virtual void Damage(int damage)
+	public override void Damage(int damage)
 	{
-		health -= damage;
+		base.Damage(damage);
 
-		if (health <= 0)
+		if (Health <= 0)
 			Kill();
 	}
 }
